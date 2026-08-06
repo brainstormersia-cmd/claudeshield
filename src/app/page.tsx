@@ -56,16 +56,10 @@ message = client.messages.create(
 
   return (
     <div className="space-y-12 lg:space-y-16 py-4">
-      {/* 1. HERO SECTION (52% Left / 48% Right, min-height ~540px) */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[520px] lg:min-h-[580px]">
+      {/* 1. HERO SECTION (52% Left / 48% Right, min-height ~520px) */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[500px] lg:min-h-[540px]">
         {/* Left Column (52%) */}
         <div className="space-y-6 lg:col-span-7">
-          {/* Reliability Pill */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#2B323B] bg-[#151A20] px-4 py-1.5 text-xs font-mono text-[#A5ADB7]">
-            <span className="text-[#FF704D]">⚡</span>
-            <span>{siteContent.hero.badge}</span>
-          </div>
-
           {/* Main Headline */}
           <h1 className="tracking-tight text-[#F4F5F6] leading-[1.15]">
             <span className="block font-bold text-4xl sm:text-5xl lg:text-[62px]">
@@ -127,7 +121,7 @@ message = client.messages.create(
         </div>
       </section>
 
-      {/* 2. MIDDLE ROW: 3 FEATURE CARDS (Refined proportions, equal heights, hover translate) */}
+      {/* 2. MIDDLE ROW: 3 FEATURE CARDS */}
       <section className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {/* Card 1: Auto Retry */}
         <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 flex items-start gap-5 hover:border-[#FF704D]/50 hover:-translate-y-[2px] transition-all duration-180 orange-glow-sm">
@@ -211,7 +205,7 @@ message = client.messages.create(
           </div>
         </div>
 
-        {/* Right Card: Built Around Reliability (Replacing fake stats with real principles) */}
+        {/* Right Card: Built Around Reliability */}
         <div className="lg:col-span-5 rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 flex flex-col justify-between space-y-6">
           <div>
             <h3 className="text-base font-bold text-[#FF704D] tracking-wide font-mono mb-4">
