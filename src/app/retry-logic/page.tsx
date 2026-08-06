@@ -41,11 +41,6 @@ Content-Type: application/json
       {/* Top Banner Header */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-center">
         <div className="space-y-4 lg:col-span-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#2B323B] bg-[#151A20] px-4 py-1 text-xs font-mono text-[#A5ADB7]">
-            <span className="text-[#FF704D]">⚡</span>
-            <span>Built for reliability. Made for builders.</span>
-          </div>
-
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#F4F5F6]">
             Retry Logic <span className="font-pixel text-[#FF704D] block mt-1">Smarter failure handling.</span>
           </h1>

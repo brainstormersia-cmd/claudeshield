@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
+import { GithubIcon } from './GithubIcon';
 import { siteContent } from '@/content/site';
 
 export const GitHubStarsButton: React.FC = () => {
-  const [stars, setStars] = useState<string>('1.2k');
+  const [stars, setStars] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchStars() {
@@ -24,7 +25,7 @@ export const GitHubStarsButton: React.FC = () => {
           }
         }
       } catch {
-        // Fallback to static count on error
+        // Fallback: hide star count on error
       }
     }
     fetchStars();
@@ -35,11 +36,18 @@ export const GitHubStarsButton: React.FC = () => {
       href={siteContent.githubUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 rounded-lg border border-[#FF704D]/60 bg-[#FF704D]/10 px-3.5 py-1.5 text-xs font-mono font-semibold text-[#FF805D] hover:bg-[#FF704D]/20 transition-all shadow-sm"
+      className="inline-flex items-center gap-1.5 rounded-md border border-[#2B323B] bg-[#F4F5F6] px-2.5 py-1.5 text-xs font-semibold text-[#0B0E12] hover:border-[#FF704D] hover:shadow-md transition-all"
       title="View on GitHub"
     >
-      <Star className="h-3.5 w-3.5 fill-[#FF805D]" />
-      <span>{stars}</span>
+      <GithubIcon className="h-4 w-4" />
+      <span>Star</span>
+      {stars !== null && (
+        <>
+          <span className="w-px h-3.5 bg-[#2B323B]/40" />
+          <Star className="h-3.5 w-3.5 fill-[#FFB347] text-[#FFB347]" />
+          <span className="font-mono">{stars}</span>
+        </>
+      )}
     </a>
   );
 };

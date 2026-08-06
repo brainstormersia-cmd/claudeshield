@@ -15,29 +15,31 @@ export default function QuickstartPage() {
   const [tab3, setTab3] = useState<'bash' | 'json'>('bash');
 
   const code1 = {
-    git: `git clone https://github.com/your-proxy/claude-proxy.git
-cd claude-proxy
-npm install
-npm run build`,
-    download: `curl -fsSL https://claude-proxy.dev/install.sh | bash`
+    git: `git clone https://github.com/brainstormersia-cmd/agentrouter-autoretry-claudecode.git
+cd agentrouter-autoretry-claudecode`,
+    download: `curl -O https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/retry-proxy.py`
   };
 
   const code2 = {
-    '.env': `# .env
-AGENTROUTER_API_KEY=ar_your_api_key_here`,
-    export: `export AGENTROUTER_API_KEY="ar_your_api_key_here"`
+    '.env': `# One command setup
+python retry-proxy.py
+# Answer: gateway, API key, model
+# Auto-configures ~/.claude/settings.json`,
+    export: `python retry-proxy.py --start --upstream https://agentrouter.org`
   };
 
   const code3 = {
-    bash: `export ANTHROPIC_BASE_URL=http://localhost:3000
-export ANTHROPIC_API_KEY=dummy
+    bash: `export ANTHROPIC_BASE_URL=http://127.0.0.1:8787
+export ANTHROPIC_API_KEY=your-agentrouter-key
+export CLAUDE_CODE_RETRY_WATCHDOG=1
 
 # Now run Claude Code as usual
 claude`,
     json: `{
   "env": {
-    "ANTHROPIC_BASE_URL": "http://localhost:3000",
-    "ANTHROPIC_API_KEY": "dummy"
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:8787",
+    "ANTHROPIC_API_KEY": "your-agentrouter-key",
+    "CLAUDE_CODE_RETRY_WATCHDOG": "1"
   }
 }`
   };
@@ -56,7 +58,6 @@ claude`,
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
         <div className="space-y-4 max-w-2xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#2B323B] bg-[#151A20] px-4 py-1 text-xs font-mono text-[#A5ADB7]">
-            <span className="text-[#FF704D]">⚡</span>
             <span>Get up and running in under 2 minutes.</span>
           </div>
 
@@ -152,7 +153,7 @@ claude`,
           <div className="space-y-1">
             <h4 className="font-bold text-sm text-[#F4F5F6]">Runs on localhost</h4>
             <p className="text-xs text-[#A5ADB7] leading-relaxed">
-              Your proxy runs locally on http://localhost:3000. Nothing leaves your machine except API calls to AgentRouter.
+                    Your proxy runs locally on http://127.0.0.1:8787. Nothing leaves your machine except API calls to AgentRouter.
             </p>
           </div>
         </div>
@@ -172,7 +173,7 @@ claude`,
           <div className="space-y-1">
             <h4 className="font-bold text-sm text-[#F4F5F6]">Works with AgentRouter</h4>
             <p className="text-xs text-[#A5ADB7] leading-relaxed">
-              Access 100+ models, smart routing, and rate limit handling automatically.
+                    Injects required headers and handles SSE streams for hidden errors automatically.
             </p>
           </div>
         </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { siteContent } from '@/content/site';
 import { CodeBlock } from '@/components/UIComponents';
 import { MascotActor } from '@/components/MascotActor';
@@ -68,7 +69,7 @@ console.log(data);`
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#2B323B] pb-6">
         <div className="space-y-2">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[#FF704D]/30 bg-[#FF704D]/10 px-3 py-1 text-xs font-mono text-[#FF805D]">
-            &lt;/&gt; Examples
+            Code Examples
           </span>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#F4F5F6]">
             Read <span className="font-pixel text-[#FF704D]">the docs</span>
@@ -88,33 +89,33 @@ console.log(data);`
             <div>
               <span className="text-[#747D88] uppercase text-[10px] tracking-wider block mb-2 font-bold">GETTING STARTED</span>
               <ul className="space-y-1 text-[#A5ADB7]">
-                <li className="px-2 py-1 hover:text-[#F4F5F6] cursor-pointer">Overview</li>
-                <li className="px-2 py-1 hover:text-[#F4F5F6] cursor-pointer">Install</li>
-                <li className="px-2 py-1 hover:text-[#F4F5F6] cursor-pointer">Configuration</li>
+                <li><Link href="/quickstart" className="block px-2 py-1 hover:text-[#F4F5F6]">Overview</Link></li>
+                <li><Link href="/quickstart" className="block px-2 py-1 hover:text-[#F4F5F6]">Install</Link></li>
+                <li><Link href="/quickstart" className="block px-2 py-1 hover:text-[#F4F5F6]">Configuration</Link></li>
               </ul>
             </div>
 
             <div>
               <span className="text-[#747D88] uppercase text-[10px] tracking-wider block mb-2 font-bold">USAGE</span>
               <ul className="space-y-1 text-[#A5ADB7]">
-                <li className="px-2 py-1 hover:text-[#F4F5F6] cursor-pointer">Making Requests</li>
+                <li><a href="#request" className="block px-2 py-1 hover:text-[#F4F5F6]">Making Requests</a></li>
                 <li className="px-2 py-1 font-bold text-[#FF704D] bg-[#191F26] rounded border-l-2 border-[#FF704D]">Code Examples</li>
-                <li className="px-2 py-1 hover:text-[#F4F5F6] cursor-pointer">Retries & Limits</li>
+                <li><a href="#retry-after" className="block px-2 py-1 hover:text-[#F4F5F6]">Retries & Limits</a></li>
               </ul>
             </div>
 
             <div>
               <span className="text-[#747D88] uppercase text-[10px] tracking-wider block mb-2 font-bold">REFERENCE</span>
               <ul className="space-y-1 text-[#A5ADB7]">
-                <li className="px-2 py-1 hover:text-[#F4F5F6] cursor-pointer">Error Codes</li>
-                <li className="px-2 py-1 hover:text-[#F4F5F6] cursor-pointer">Headers</li>
+                <li><a href="#response" className="block px-2 py-1 hover:text-[#F4F5F6]">Error Codes</a></li>
+                <li><a href="#retry-after" className="block px-2 py-1 hover:text-[#F4F5F6]">Headers</a></li>
               </ul>
             </div>
 
             <div>
               <span className="text-[#747D88] uppercase text-[10px] tracking-wider block mb-2 font-bold">RESOURCES</span>
               <ul className="space-y-1 text-[#A5ADB7]">
-                <li className="px-2 py-1 hover:text-[#F4F5F6] cursor-pointer">FAQ</li>
+                <li><Link href="/faq" className="block px-2 py-1 hover:text-[#F4F5F6]">FAQ</Link></li>
                 <li>
                   <a href={siteContent.githubUrl} target="_blank" rel="noopener noreferrer" className="px-2 py-1 hover:text-[#FF704D] flex items-center justify-between">
                     <span>GitHub</span>
@@ -129,7 +130,7 @@ console.log(data);`
           <div className="rounded-xl border border-[#2B323B] bg-[#11151A] p-4 text-center space-y-3 relative">
             <MascotActor pose="idle" size={56} className="mx-auto" />
             <p className="text-xs text-[#A5ADB7] leading-relaxed">
-              Need help? Check the FAQ or open an issue on GitHub. ❤
+              Need help? Check the FAQ or open an issue on GitHub.
             </p>
           </div>
         </aside>
@@ -165,27 +166,27 @@ console.log(data);`
         {/* Right Rail Examples & Cards */}
         <aside className="lg:col-span-3 space-y-6">
           {/* Example Request */}
-          <div className="rounded-xl border border-[#2B323B] bg-[#151A20] p-4 space-y-2">
+          <div id="request" className="rounded-xl border border-[#2B323B] bg-[#151A20] p-4 space-y-2 scroll-mt-24">
             <span className="text-xs font-mono font-bold text-[#F4F5F6] block">Example Request</span>
             <CodeBlock code={sampleRequestJson} language="http" />
           </div>
 
           {/* Example Response */}
-          <div className="rounded-xl border border-[#2B323B] bg-[#151A20] p-4 space-y-2">
+          <div id="response" className="rounded-xl border border-[#2B323B] bg-[#151A20] p-4 space-y-2 scroll-mt-24">
             <span className="text-xs font-mono font-bold text-[#83D957] block">Example Response</span>
             <CodeBlock code={sampleResponseJson} language="json" />
           </div>
 
           {/* Retry-After Header Info Card */}
-          <div className="rounded-xl border border-[#FF704D]/40 bg-[#FF704D]/10 p-4 space-y-3 orange-glow-sm">
+          <div id="retry-after" className="rounded-xl border border-[#FF704D]/40 bg-[#FF704D]/10 p-4 space-y-3 orange-glow-sm scroll-mt-24">
             <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-[#FF805D]">
-              <span>⚡ Retry-After Header</span>
+              <span>Retry-After Header</span>
             </div>
             <p className="text-xs text-[#A5ADB7] leading-relaxed">
               When rate limited, we return a 429 status with a Retry-After header (in seconds). Respect it to avoid further limits.
             </p>
             <div className="rounded border border-[#FF704D]/30 bg-[#151A20] p-2 text-xs font-mono text-[#FF704D]">
-              Retry-After: 12
+              Retry-After: 20
             </div>
           </div>
         </aside>

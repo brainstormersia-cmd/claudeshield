@@ -20,7 +20,6 @@ export default function FeaturesPage() {
     <div className="space-y-16 py-8 sm:py-12">
       {/* Header */}
       <div className="space-y-4 text-center max-w-3xl mx-auto">
-        <SectionBadge>Built for reliability. Made for builders.</SectionBadge>
         <PixelHeading
           title="Why this"
           highlight="proxy works"
