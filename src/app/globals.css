@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-pixel: 'Pixelify Sans', cursive, sans-serif;
+
+    --bg-page: #0B0E12;
+    --bg-elevated: #11151A;
+    --bg-card: #151A20;
+    --bg-card-secondary: #191F26;
+    --border-color: #2B323B;
+    
+    --primary-orange: #FF704D;
+    --bright-orange: #FF805D;
+    --dark-orange: #C9472D;
+    
+    --text-main: #F4F5F6;
+    --text-secondary: #A5ADB7;
+    --text-muted: #747D88;
+    
+    --success-green: #83D957;
+    --warning-amber: #FFB347;
+    --error-red: #EF6258;
+  }
+
+  body {
+    background-color: #0B0E12;
+    color: #F4F5F6;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+}
+
+.font-pixel {
+  font-family: var(--font-pixel);
+  line-height: 1.2;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Strict Pixel Art Rendering rules for mascot PNGs & icons */
+.pixelated, img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Grid Pattern for stage background */
+.bg-grid-pattern {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(43, 50, 59, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(43, 50, 59, 0.2) 1px, transparent 1px);
+}
+
+/* Subtle Gentle Idle Float Bobbing for Mascot */
+@keyframes idleBob {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-2px); }
+}
+
+.animate-idle-bob {
+  animation: idleBob 2.8s ease-in-out infinite;
+}
+
+/* Independent Floating for Labels */
+@keyframes floatLabel1 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes floatLabel2 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(2px); }
+}
+
+@keyframes floatLabel3 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-1.5px); }
+}
+
+.animate-float-label-1 { animation: floatLabel1 3.2s ease-in-out infinite; }
+.animate-float-label-2 { animation: floatLabel2 3.8s ease-in-out infinite 0.4s; }
+.animate-float-label-3 { animation: floatLabel3 3.5s ease-in-out infinite 0.8s; }
+
+/* Reduced Motion Overrides */
+@media (prefers-reduced-motion: reduce) {
+  .animate-idle-bob,
+  .animate-float-label-1,
+  .animate-float-label-2,
+  .animate-float-label-3,
+  .animate-pulse,
+  .animate-ping {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Orange Glow Utilities */
+.orange-glow-sm {
+  box-shadow: 0 0 20px rgba(255, 112, 77, 0.15);
+}
+
+.orange-glow-md {
+  box-shadow: 0 0 35px rgba(255, 112, 77, 0.25);
+}
