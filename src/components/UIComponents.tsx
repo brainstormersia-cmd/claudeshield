@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { PixelImage } from './PixelImage';
-import { PixelIconRefresh, PixelIconHouseHeart, PixelIcon403To429 } from './PixelIcons';
+import { PixelIconRefresh, PixelIconHouseHeart, PixelIcon403To429, PixelIconShieldHeart, PixelIconClock, PixelIconTerminal, PixelIconFaqBubble } from './PixelIcons';
 import { Copy, Check, Terminal, Lock, Clock, ArrowRightLeft, ShieldCheck, Shield, Star, Zap } from 'lucide-react';
 import { MascotActor } from './MascotActor';
 
@@ -118,7 +118,7 @@ export const CodeTabs: React.FC<{
   );
 };
 
-// Feature Icon renderer helper
+// Feature Icon renderer helper - uses pixel art icons, not generic AI icons
 const renderFeatureIcon = (name: string) => {
   switch (name) {
     case 'RotateCw':
@@ -129,14 +129,27 @@ const renderFeatureIcon = (name: string) => {
     case 'Home':
     case 'local-first':
       return <PixelIconHouseHeart className="h-8 w-8 text-[#FF704D]" />;
-    case 'Clock': return <Clock className="h-5 w-5" />;
-    case 'ArrowRightLeft': return <ArrowRightLeft className="h-5 w-5" />;
-    case 'Lock': return <Lock className="h-5 w-5" />;
-    case 'Terminal': return <Terminal className="h-5 w-5" />;
-    case 'ShieldCheck': return <ShieldCheck className="h-5 w-5" />;
-    case 'Shield': return <Shield className="h-5 w-5" />;
-    case 'Star': return <Star className="h-5 w-5" />;
-    default: return <Zap className="h-5 w-5" />;
+    case 'Clock':
+    case 'retry-after':
+    case 'smart-backoff':
+      return <PixelIconClock className="h-7 w-7 text-[#FF704D]" />;
+    case 'ArrowRightLeft':
+    case '403-to-429':
+      return <PixelIcon403To429 className="h-7 w-7 text-[#FF704D]" />;
+    case 'Lock':
+      return <PixelIconShieldHeart className="h-7 w-7 text-[#FF704D]" />;
+    case 'Terminal':
+    case 'cli-friendly':
+      return <PixelIconTerminal className="h-7 w-7 text-[#FF704D]" />;
+    case 'ShieldCheck':
+    case 'safe-defaults':
+      return <PixelIconShieldHeart className="h-7 w-7 text-[#FF704D]" />;
+    case 'Shield':
+      return <PixelIconShieldHeart className="h-7 w-7 text-[#FF704D]" />;
+    case 'Star':
+      return <PixelIconFaqBubble className="h-7 w-7 text-[#FF704D]" />;
+    default:
+      return <PixelIconRefresh className="h-7 w-7 text-[#FF704D]" />;
   }
 };
 

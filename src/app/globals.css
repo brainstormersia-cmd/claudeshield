@@ -86,6 +86,38 @@
 .animate-float-label-2 { animation: floatLabel2 3.8s ease-in-out infinite 0.4s; }
 .animate-float-label-3 { animation: floatLabel3 3.5s ease-in-out infinite 0.8s; }
 
+/* Ambient Background Animations */
+@keyframes pulseSlow {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+.animate-pulse-slow { animation: pulseSlow 4s ease-in-out infinite; }
+
+@keyframes orb1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-15px, 12px) scale(1.05); }
+  66% { transform: translate(10px, -8px) scale(0.97); }
+}
+.animate-orb-1 { animation: orb1 9s ease-in-out infinite; }
+
+@keyframes orb2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(12px, -10px) scale(1.04); }
+  66% { transform: translate(-8px, 6px) scale(0.98); }
+}
+.animate-orb-2 { animation: orb2 11s ease-in-out infinite 1s; }
+
+@keyframes gradientShift {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.animate-gradient-shift { animation: gradientShift 6s ease-in-out infinite; }
+
+@keyframes dashFlow {
+  to { stroke-dashoffset: -48; }
+}
+.animate-dash-flow { animation: dashFlow 3s linear infinite; }
+
 /* Reduced Motion Overrides */
 @media (prefers-reduced-motion: reduce) {
   .animate-idle-bob,
@@ -93,7 +125,12 @@
   .animate-float-label-2,
   .animate-float-label-3,
   .animate-pulse,
-  .animate-ping {
+  .animate-ping,
+  .animate-pulse-slow,
+  .animate-orb-1,
+  .animate-orb-2,
+  .animate-gradient-shift,
+  .animate-dash-flow {
     animation: none !important;
     transform: none !important;
   }

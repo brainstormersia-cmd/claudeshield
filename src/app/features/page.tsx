@@ -8,7 +8,7 @@ import { Copy, Check } from 'lucide-react';
 
 export default function FeaturesPage() {
   const [copied, setCopied] = useState(false);
-  const commandText = "npm i -g claude-proxy";
+  const commandText = "python retry-proxy.py --start --upstream https://agentrouter.org";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(commandText);
@@ -58,14 +58,11 @@ export default function FeaturesPage() {
         </div>
 
         <div className="flex items-center gap-4 text-xs font-mono text-[#A5ADB7]">
-          <div className="flex items-center gap-1.5">
-            <span className="text-[#FF704D]">❤</span>
-            <span>Loved by builders</span>
-          </div>
-          <span>•</span>
           <span>Open source</span>
           <span>•</span>
           <span>MIT License</span>
+          <span>•</span>
+          <span>Zero dependencies</span>
         </div>
       </div>
     </div>
