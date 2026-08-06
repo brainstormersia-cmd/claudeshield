@@ -141,18 +141,48 @@ export default function CompatibilityPage() {
           <h2 className="text-base font-bold text-[#F4F5F6]">OpenCode (terminal AI agent)</h2>
         </div>
         <p className="text-xs text-[#A5ADB7] leading-relaxed">
-          OpenCode speaks the Anthropic Messages API, so it works with ClaudeShield out of the box.
-          Point it at the local proxy and it gets the same retry and auth handling as Claude Code.
+          OpenCode works with ClaudeShield in both API formats. The proxy forwards requests as-is,
+          and AgentRouter accepts both <code className="text-[#FF704D]">/v1/messages</code> (Anthropic)
+          and <code className="text-[#FF704D]">/v1/chat/completions</code> (OpenAI-compatible).
+          Tested and working.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Method 1: opencode.json */}
+          {/* Method 1: OpenAI-compatible (default OpenCode setup) */}
           <div className="space-y-2">
-            <div className="text-xs font-mono text-[#FF704D] font-bold">Method 1 - opencode.json</div>
+            <div className="text-xs font-mono text-[#FF704D] font-bold">Method 1 - OpenAI-compatible (recommended)</div>
             <CodeBlock
               code={`{
   "provider": {
-    "agentrouter": {
+    "claudeshield": {
+      "name": "ClaudeShield (AgentRouter)",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://127.0.0.1:8787/v1",
+        "apiKey": "your-agentrouter-key"
+      },
+      "models": {
+        "claude-opus-5": { "name": "Claude Opus 5" }
+      }
+    }
+  }
+}`}
+              language="json"
+              filename="opencode.json"
+            />
+            <p className="text-[10px] text-[#747D88]">
+              Uses <code className="text-[#FF704D]">@ai-sdk/openai-compatible</code> - the default OpenCode provider style.
+            </p>
+          </div>
+
+          {/* Method 2: Anthropic Messages API */}
+          <div className="space-y-2">
+            <div className="text-xs font-mono text-[#FF704D] font-bold">Method 2 - Anthropic Messages API</div>
+            <CodeBlock
+              code={`{
+  "provider": {
+    "claudeshield": {
+      "name": "ClaudeShield (AgentRouter)",
       "npm": "@ai-sdk/anthropic",
       "options": {
         "baseURL": "http://127.0.0.1:8787",
@@ -167,25 +197,28 @@ export default function CompatibilityPage() {
               language="json"
               filename="opencode.json"
             />
+            <p className="text-[10px] text-[#747D88]">
+              Uses <code className="text-[#FF704D]">@ai-sdk/anthropic</code> for native Messages API format.
+            </p>
           </div>
+        </div>
 
-          {/* Method 2: env vars */}
-          <div className="space-y-2">
-            <div className="text-xs font-mono text-[#FF704D] font-bold">Method 2 - Environment variables</div>
-            <CodeBlock
-              code={`# Terminal (macOS / Linux)
-export ANTHROPIC_BASE_URL=http://127.0.0.1:8787
+        {/* Quick env vars alternative */}
+        <div className="rounded-xl border border-[#2B323B] bg-[#11151A] p-4 space-y-2">
+          <div className="text-xs font-mono font-bold text-[#FF704D]">Quick alternative - Environment variables</div>
+          <CodeBlock
+            code={`# Terminal (macOS / Linux)
+export ANTHROPIC_BASE_URL=http://127.0.0.1:8787/v1
 export ANTHROPIC_API_KEY=your-agentrouter-key
 
 # PowerShell (Windows)
-$env:ANTHROPIC_BASE_URL="http://127.0.0.1:8787"
+$env:ANTHROPIC_BASE_URL="http://127.0.0.1:8787/v1"
 $env:ANTHROPIC_API_KEY="your-agentrouter-key"
 
 # Launch
 opencode`}
-              language="bash"
-            />
-          </div>
+            language="bash"
+          />
         </div>
 
         <div className="rounded-xl border border-[#2B323B] bg-[#11151A] p-4 space-y-2">
