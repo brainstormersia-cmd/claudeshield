@@ -75,8 +75,8 @@ export const CodeBlock: React.FC<{ code: string; language?: string; filename?: s
         </div>
       </div>
 
-      {/* Code Text Area */}
-      <pre className="overflow-x-auto p-4 font-mono text-xs sm:text-sm text-[#F4F5F6] leading-relaxed">
+      {/* Code Text Area - wraps instead of horizontal scroll */}
+      <pre className="whitespace-pre-wrap break-words p-4 font-mono text-xs sm:text-sm text-[#F4F5F6] leading-relaxed">
         <code>{code}</code>
       </pre>
 

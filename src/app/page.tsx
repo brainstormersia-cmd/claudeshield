@@ -104,9 +104,9 @@ message = client.messages.create(
 
           {/* Quick Terminal Command Bar - Without scrollbar */}
           <div className="relative flex items-center justify-between rounded-xl border border-[#2B323B] bg-[#090B0E] px-4 py-3 font-mono text-xs text-[#F4F5F6] max-w-2xl">
-            <div className="flex items-center gap-2.5 overflow-x-auto pr-4 scrollbar-none [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <span className="text-[#FF704D] select-none">$</span>
-              <span className="text-[#F4F5F6] whitespace-nowrap">{quickCommand}</span>
+            <div className="flex items-start gap-2.5 pr-4">
+              <span className="text-[#FF704D] select-none pt-0.5">$</span>
+              <span className="text-[#F4F5F6] break-all">{quickCommand}</span>
             </div>
             <button
               onClick={handleCopyTerminal}
@@ -215,7 +215,7 @@ message = client.messages.create(
             >
               {codeCopied ? <Check className="h-4 w-4 text-[#83D957]" /> : <Copy className="h-4 w-4" />}
             </button>
-            <pre className="overflow-x-auto pr-8">
+            <pre className="whitespace-pre-wrap break-words pr-8">
               <code>{codeSnippets[activeTab]}</code>
             </pre>
           </div>
