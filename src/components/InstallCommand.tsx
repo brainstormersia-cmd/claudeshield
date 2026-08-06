@@ -8,21 +8,28 @@ interface InstallCommandProps {
   className?: string;
 }
 
-type Platform = 'macos' | 'windows';
+type Platform = 'macos' | 'cmd' | 'powershell';
 
 const COMMANDS: Record<Platform, { id: Platform; label: string; command: string; hint: string }> = {
   macos: {
     id: 'macos',
     label: 'macOS / Linux',
     command:
-      'curl -sSL https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/install.py | python',
+      'curl -sSL https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/install.py | python3',
     hint: 'Bash / Zsh',
   },
-  windows: {
-    id: 'windows',
-    label: 'Windows PowerShell',
+  cmd: {
+    id: 'cmd',
+    label: 'Windows CMD',
     command:
-      'curl.exe -sSL https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/install.py -o "$env:TEMP\\claudeshield-install.py"; python "$env:TEMP\\claudeshield-install.py"',
+      'curl -sSL https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/install.py | python',
+    hint: 'Command Prompt',
+  },
+  powershell: {
+    id: 'powershell',
+    label: 'PowerShell',
+    command:
+      'curl.exe -sSL https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/install.py -o "$env:TEMP\\cs-install.py"; python "$env:TEMP\\cs-install.py"',
     hint: 'PowerShell',
   },
 };

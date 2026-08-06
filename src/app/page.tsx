@@ -101,6 +101,15 @@ message = client.messages.create(
             />
           </div>
 
+          {/* ClaudeShield quick commands */}
+          <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] font-mono text-[#747D88]">
+            <span className="text-[#A5ADB7]">Already installed?</span>
+            <code className="rounded border border-[#2B323B] bg-[#151A20] px-2 py-0.5 text-[#FF805D]">python retry-proxy.py --update</code>
+            <span>·</span>
+            <code className="rounded border border-[#2B323B] bg-[#151A20] px-2 py-0.5 text-[#A5ADB7]">--start</code>
+            <code className="rounded border border-[#2B323B] bg-[#151A20] px-2 py-0.5 text-[#A5ADB7]">--version</code>
+          </div>
+
           {/* Pipeline Flow Bar */}
           <div className="flex items-center gap-3 pt-1 font-mono text-xs text-[#A5ADB7]">
             <span className="rounded-lg border border-[#2B323B] bg-[#151A20] px-3.5 py-2 text-[#F4F5F6]">Proxy</span>
