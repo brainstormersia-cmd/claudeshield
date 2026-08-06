@@ -32,6 +32,7 @@ jobs:
         env:
           DEPLOY_TARGET: github-pages
           NEXT_PUBLIC_BASE_PATH: /claudeshield
+          NEXT_PUBLIC_SITE_URL: https://brainstormersia-cmd.github.io/claudeshield
           NEXT_PUBLIC_CURRENT_VERSION: v3.1.0
           NEXT_PUBLIC_GITHUB_REPOSITORY_URL: https://github.com/brainstormersia-cmd/agentrouter-autoretry-claudecode
           NEXT_PUBLIC_DOWNLOAD_URL: https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/retry-proxy.py

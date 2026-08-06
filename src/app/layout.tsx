@@ -24,19 +24,23 @@ const pixelify = Pixelify_Sans({
   weight: ['400', '600', '700'],
 });
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://brainstormersia-cmd.github.io/claudeshield';
+
 export const metadata: Metadata = {
-  title: siteContent.name,
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteContent.name,
+    template: `%s | ${siteContent.name}`,
+  },
   description: siteContent.description,
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '48x48' },
-      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
-      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { url: `${basePath}/assets/favicon.png`, sizes: 'any', type: 'image/png' },
     ],
-    shortcut: '/favicon.ico',
+    shortcut: `${basePath}/assets/favicon.png`,
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: `${basePath}/assets/favicon.png`, sizes: 'any', type: 'image/png' },
     ],
   },
   keywords: [
@@ -49,11 +53,28 @@ export const metadata: Metadata = {
     'Local Proxy',
     'Developer Tools',
   ],
-  authors: [{ name: 'Claude Proxy Team' }],
+  authors: [{ name: 'ClaudeShield' }],
   openGraph: {
     title: siteContent.name,
     description: siteContent.description,
     type: 'website',
+    url: siteUrl,
+    siteName: siteContent.name,
+    locale: 'en_US',
+    images: [
+      {
+        url: '/assets/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: siteContent.name,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteContent.name,
+    description: siteContent.description,
+    images: ['/assets/og-image.png'],
   },
 };
 
