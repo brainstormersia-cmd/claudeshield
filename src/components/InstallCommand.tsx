@@ -67,22 +67,22 @@ export const InstallCommand: React.FC<InstallCommandProps> = ({
       </div>
 
       <div
-        className="group relative flex items-center gap-3 rounded-xl border border-[#2B323B] bg-[#0B0E12] px-4 py-3 hover:border-[#FF704D]/50 transition-all"
+        className="group relative flex items-start gap-3 rounded-xl border border-[#2B323B] bg-[#0B0E12] px-4 py-3 hover:border-[#FF704D]/50 transition-all"
         role="region"
         aria-label={`Install command for ${current.label}`}
       >
         {/* Terminal prompt icon */}
-        <Terminal className="h-4 w-4 shrink-0 text-[#FF704D]" />
+        <Terminal className="h-4 w-4 shrink-0 text-[#FF704D] mt-0.5" />
 
-        {/* Command text */}
-        <code className="truncate font-mono text-xs text-[#A5ADB7] flex-1 min-w-0">
+        {/* Command text - full command, wraps to multiple lines */}
+        <code className="font-mono text-xs text-[#A5ADB7] flex-1 min-w-0 break-all whitespace-pre-wrap leading-relaxed">
           {current.command}
         </code>
 
         {/* Copy button */}
         <button
           onClick={handleCopy}
-          className="flex shrink-0 items-center gap-1.5 rounded-lg border border-[#2B323B] bg-[#151A20] px-3 py-1.5 text-xs font-medium text-[#A5ADB7] hover:border-[#FF704D] hover:text-[#F4F5F6] transition-all"
+          className="flex shrink-0 items-center gap-1.5 rounded-lg border border-[#2B323B] bg-[#151A20] px-3 py-1.5 text-xs font-medium text-[#A5ADB7] hover:border-[#FF704D] hover:text-[#F4F5F6] transition-all mt-0.5"
           aria-label={`Copy install command for ${current.label}`}
         >
           {copied ? (

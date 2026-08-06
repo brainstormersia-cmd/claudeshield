@@ -7,13 +7,11 @@ import { HeroMascotScene } from '@/components/HeroMascotScene';
 import { ScrambleText } from '@/components/ScrambleText';
 import { ArrowRight, BookOpen, Heart, Shield, RefreshCw, Cpu, Code2, Copy, Check } from 'lucide-react';
 import { siteContent } from '@/content/site';
+import { InstallCommand } from '@/components/InstallCommand';
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'cURL' | 'JavaScript' | 'Python'>('cURL');
   const [codeCopied, setCodeCopied] = useState(false);
-  const [terminalCopied, setTerminalCopied] = useState(false);
-
-  const quickCommand = "curl -O https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/retry-proxy.py && python retry-proxy.py";
 
   const codeSnippets = {
     cURL: `curl http://127.0.0.1:8787/v1/messages \\
@@ -56,12 +54,6 @@ message = client.messages.create(
     setTimeout(() => setCodeCopied(false), 1800);
   };
 
-  const handleCopyTerminal = () => {
-    navigator.clipboard.writeText(quickCommand);
-    setTerminalCopied(true);
-    setTimeout(() => setTerminalCopied(false), 1800);
-  };
-
   return (
     <div className="space-y-8 sm:space-y-10 py-2 sm:py-4">
       {/* 1. HERO SECTION (Widescreen 1600px, 52% Left / 48% Right, Prominent Typography) */}
@@ -102,19 +94,11 @@ message = client.messages.create(
             </Link>
           </div>
 
-          {/* Quick Terminal Command Bar - Without scrollbar */}
-          <div className="relative flex items-center justify-between rounded-xl border border-[#2B323B] bg-[#090B0E] px-4 py-3 font-mono text-xs text-[#F4F5F6] max-w-2xl">
-            <div className="flex items-start gap-2.5 pr-4">
-              <span className="text-[#FF704D] select-none pt-0.5">$</span>
-              <span className="text-[#F4F5F6] break-all">{quickCommand}</span>
-            </div>
-            <button
-              onClick={handleCopyTerminal}
-              className="shrink-0 rounded bg-[#151A20] p-1.5 text-[#A5ADB7] hover:text-[#F4F5F6] border border-[#2B323B] transition-colors ml-2"
-              title="Copy terminal command"
-            >
-              {terminalCopied ? <Check className="h-4 w-4 text-[#83D957]" /> : <Copy className="h-4 w-4" />}
-            </button>
+          {/* Quick Install Command - with platform tabs */}
+          <div className="max-w-2xl">
+            <InstallCommand
+              label="One command. Downloads + configures + launches automatically. Python 3.8+."
+            />
           </div>
 
           {/* Pipeline Flow Bar */}
