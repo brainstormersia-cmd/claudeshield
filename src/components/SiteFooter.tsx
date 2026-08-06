@@ -7,11 +7,11 @@ import { siteContent } from '@/content/site';
 
 export const SiteFooter: React.FC = () => {
   return (
-    <footer className="w-full border-t border-[#2B323B]/80 bg-[#0B0E12] py-12 text-[#A5ADB7]">
-      <div className="mx-auto max-w-[1220px] px-[18px] sm:px-6 lg:px-8 space-y-8">
+    <footer className="w-full border-t border-[#2B323B]/80 bg-[#0B0E12] py-8 text-[#A5ADB7]">
+      <div className="mx-auto w-[calc(100%-64px)] max-w-[1600px] px-[18px] sm:px-6 lg:px-8 space-y-6">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
           {/* Brand Column */}
-          <div className="md:col-span-5 space-y-4">
+          <div className="md:col-span-5 space-y-3">
             <Link href="/" className="flex items-center gap-3 group focus:outline-none">
               <PixelImage
                 src="/assets/mascot-idle.png"
@@ -32,9 +32,9 @@ export const SiteFooter: React.FC = () => {
           </div>
 
           {/* Navigation Column */}
-          <div className="md:col-span-3 space-y-3 font-mono text-xs">
+          <div className="md:col-span-3 space-y-2 font-mono text-xs">
             <h4 className="font-bold text-[#F4F5F6] tracking-wider uppercase">Navigation</h4>
-            <ul className="space-y-2 text-[#A5ADB7]">
+            <ul className="space-y-1.5 text-[#A5ADB7]">
               <li><Link href="/" className="hover:text-[#F4F5F6] transition-colors">Home</Link></li>
               <li><Link href="/features" className="hover:text-[#F4F5F6] transition-colors">Features</Link></li>
               <li><Link href="/retry-logic" className="hover:text-[#F4F5F6] transition-colors">Retry Logic</Link></li>
@@ -44,9 +44,9 @@ export const SiteFooter: React.FC = () => {
           </div>
 
           {/* Resources Column */}
-          <div className="md:col-span-4 space-y-3 font-mono text-xs">
+          <div className="md:col-span-4 space-y-2 font-mono text-xs">
             <h4 className="font-bold text-[#F4F5F6] tracking-wider uppercase">Resources</h4>
-            <ul className="space-y-2 text-[#A5ADB7]">
+            <ul className="space-y-1.5 text-[#A5ADB7]">
               <li><Link href="/docs" className="hover:text-[#F4F5F6] transition-colors">Documentation</Link></li>
               <li><Link href="/faq" className="hover:text-[#F4F5F6] transition-colors">FAQ</Link></li>
               <li><Link href="/download" className="hover:text-[#F4F5F6] transition-colors">Download</Link></li>
@@ -65,7 +65,7 @@ export const SiteFooter: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between pt-6 border-t border-[#2B323B]/60 text-xs font-mono text-[#747D88]">
+        <div className="flex flex-col sm:flex-row items-center justify-between pt-4 border-t border-[#2B323B]/60 text-xs font-mono text-[#747D88]">
           <p>© {new Date().getFullYear()} Claude Proxy Team. Open Source MIT License.</p>
           <p className="pt-2 sm:pt-0">Runs locally on localhost:8787</p>
         </div>

@@ -7,11 +7,13 @@ import { HeroMascotScene } from '@/components/HeroMascotScene';
 import { ScrambleText } from '@/components/ScrambleText';
 import { ArrowRight, BookOpen, Heart, Shield, RefreshCw, Cpu, Code2, Copy, Check } from 'lucide-react';
 import { siteContent } from '@/content/site';
-import { InstallCommand } from '@/components/InstallCommand';
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'cURL' | 'JavaScript' | 'Python'>('cURL');
   const [codeCopied, setCodeCopied] = useState(false);
+  const [terminalCopied, setTerminalCopied] = useState(false);
+
+  const quickCommand = "curl -O https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/retry-proxy.py && python retry-proxy.py";
 
   const codeSnippets = {
     cURL: `curl http://127.0.0.1:8787/v1/messages \\
@@ -54,29 +56,35 @@ message = client.messages.create(
     setTimeout(() => setCodeCopied(false), 1800);
   };
 
+  const handleCopyTerminal = () => {
+    navigator.clipboard.writeText(quickCommand);
+    setTerminalCopied(true);
+    setTimeout(() => setTerminalCopied(false), 1800);
+  };
+
   return (
-    <div className="space-y-12 lg:space-y-16 py-4">
-      {/* 1. HERO SECTION (52% Left / 48% Right, min-height ~520px) */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[500px] lg:min-h-[540px]">
+    <div className="space-y-8 sm:space-y-10 py-2 sm:py-4">
+      {/* 1. HERO SECTION (Widescreen 1600px, 52% Left / 48% Right, Prominent Typography) */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[480px] lg:min-h-[520px]">
         {/* Left Column (52%) */}
-        <div className="space-y-6 lg:col-span-7">
+        <div className="space-y-5 lg:col-span-7">
           {/* Main Headline */}
-          <h1 className="tracking-tight text-[#F4F5F6] leading-[1.15]">
-            <span className="block font-bold text-4xl sm:text-5xl lg:text-[62px]">
+          <h1 className="tracking-tight text-[#F4F5F6] leading-[1.1]">
+            <span className="block font-bold text-5xl sm:text-6xl lg:text-7xl">
               Claude Proxy
             </span>
-            <span className="block font-pixel font-bold text-3xl sm:text-4xl lg:text-[52px] text-[#FF704D] mt-1 drop-shadow-[0_0_20px_rgba(255,112,77,0.35)]">
+            <span className="block font-pixel font-bold text-4xl sm:text-5xl lg:text-[58px] text-[#FF704D] mt-1 drop-shadow-[0_0_24px_rgba(255,112,77,0.4)]">
               for <ScrambleText text="AgentRouter" />
             </span>
           </h1>
 
           {/* Subhead Paragraph */}
-          <p className="text-base sm:text-[17px] lg:text-[18px] text-[#A5ADB7] leading-[1.65] max-w-xl">
+          <p className="text-base sm:text-lg lg:text-[19px] text-[#A5ADB7] leading-[1.6] max-w-2xl">
             {siteContent.hero.subhead}
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center gap-4 pt-1">
             <Link
               href="/quickstart"
               className="inline-flex items-center gap-2.5 rounded-xl bg-[#FF704D] px-6 py-3.5 text-sm font-bold text-white hover:bg-[#FF805D] transition-all shadow-lg orange-glow-sm hover:scale-105"
@@ -94,15 +102,23 @@ message = client.messages.create(
             </Link>
           </div>
 
-          {/* One-liner install command - copy and go */}
-          <div className="pt-2">
-            <InstallCommand
-              label="Paste in terminal. Downloads + configures + launches automatically. Python 3.8+."
-            />
+          {/* Quick Terminal Command Bar - Without scrollbar */}
+          <div className="relative flex items-center justify-between rounded-xl border border-[#2B323B] bg-[#090B0E] px-4 py-3 font-mono text-xs text-[#F4F5F6] max-w-2xl">
+            <div className="flex items-center gap-2.5 overflow-x-auto pr-4 scrollbar-none [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <span className="text-[#FF704D] select-none">$</span>
+              <span className="text-[#F4F5F6] whitespace-nowrap">{quickCommand}</span>
+            </div>
+            <button
+              onClick={handleCopyTerminal}
+              className="shrink-0 rounded bg-[#151A20] p-1.5 text-[#A5ADB7] hover:text-[#F4F5F6] border border-[#2B323B] transition-colors ml-2"
+              title="Copy terminal command"
+            >
+              {terminalCopied ? <Check className="h-4 w-4 text-[#83D957]" /> : <Copy className="h-4 w-4" />}
+            </button>
           </div>
 
           {/* Pipeline Flow Bar */}
-          <div className="flex items-center gap-3 pt-2 font-mono text-xs text-[#A5ADB7]">
+          <div className="flex items-center gap-3 pt-1 font-mono text-xs text-[#A5ADB7]">
             <span className="rounded-lg border border-[#2B323B] bg-[#151A20] px-3.5 py-2 text-[#F4F5F6]">Proxy</span>
             <span className="text-[#747D88]">──➔</span>
             <div className="flex items-center justify-center rounded-lg border border-[#FF704D]/40 bg-[#151A20] px-2.5 py-1">
@@ -115,7 +131,7 @@ message = client.messages.create(
           </div>
         </div>
 
-        {/* Right Hero Stage (48% - Mascot Visual Protagonist) */}
+        {/* Right Hero Stage (48% - Mascot Visual Protagonist 480px) */}
         <div className="lg:col-span-5 flex items-center justify-center">
           <HeroMascotScene />
         </div>

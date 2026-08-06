@@ -29,11 +29,14 @@ export const metadata: Metadata = {
   description: siteContent.description,
   icons: {
     icon: [
-      { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/assets/favicon.png`, sizes: 'any', type: 'image/png' },
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
     ],
-    shortcut: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/assets/favicon.png`,
+    shortcut: '/favicon.ico',
     apple: [
-      { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/assets/favicon.png`, sizes: 'any', type: 'image/png' },
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   keywords: [
@@ -75,7 +78,7 @@ export default function RootLayout({
           <SiteHeader />
           <main
             id="main-content"
-            className="flex-1 w-full max-w-[1220px] mx-auto px-[18px] sm:px-6 lg:px-8 py-8 lg:py-12"
+            className="flex-1 w-[calc(100%-64px)] max-w-[1600px] mx-auto px-[18px] sm:px-6 lg:px-8 py-4 sm:py-6"
           >
             {children}
           </main>

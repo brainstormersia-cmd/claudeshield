@@ -22,7 +22,7 @@ export const SiteHeader: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full h-[88px] border-b border-[#2B323B]/80 bg-[#0B0E12]/95 backdrop-blur-md">
-      <div className="mx-auto flex h-full max-w-[1220px] items-center justify-between px-[18px] sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-full w-[calc(100%-64px)] max-w-[1600px] items-center justify-between px-[18px] sm:px-6 lg:px-8">
         
         {/* Maximum Visibility Horizontal Pixel Logo */}
         <Link href="/" className="flex items-center gap-3 group focus:outline-none" aria-label="Claude Proxy Home">
