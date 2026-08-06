@@ -8,10 +8,23 @@ interface PixelImageProps extends Omit<ImageProps, 'style'> {
   style?: React.CSSProperties;
 }
 
+// On GitHub Pages the site is served from a subpath (/claudeshield/).
+// Next.js basePath handles routing but NOT manual asset paths in src="...".
+// This helper injects the basePath prefix for /assets/ references.
+function fixAssetPath(src: unknown): unknown {
+  if (typeof src !== 'string') return src;
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  if (src.startsWith('/assets/') && basePath && !src.startsWith(basePath)) {
+    return `${basePath}${src}`;
+  }
+  return src;
+}
+
 export const PixelImage: React.FC<PixelImageProps> = ({
   className = '',
   style,
   alt,
+  src,
   ...props
 }) => {
   return (
@@ -24,6 +37,7 @@ export const PixelImage: React.FC<PixelImageProps> = ({
         ...style,
       }}
       unoptimized
+      src={(fixAssetPath(src) as string) ?? src}
       {...props}
     />
   );
