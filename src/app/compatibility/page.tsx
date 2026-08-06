@@ -4,16 +4,19 @@ import React from 'react';
 import { PixelImage } from '@/components/PixelImage';
 import { MascotActor } from '@/components/MascotActor';
 import { CodeBlock } from '@/components/UIComponents';
-import { CheckCircle2, Shield, RefreshCw, Home } from 'lucide-react';
+import { CheckCircle2, Shield, RefreshCw, Home, TerminalSquare } from 'lucide-react';
 
 export default function CompatibilityPage() {
   const matrixData = [
     { client: 'Claude Code', desc: 'Official CLI', icon: '/assets/badge-claude-code.png' },
     { client: 'Anthropic API', desc: 'api.anthropic.com', icon: '/assets/badge-anthropic-api.png' },
-    { client: 'OpenAI-Compatible', desc: 'OpenAI style endpoints', icon: '/assets/badge-openai-compatible.png' },
-    { client: 'AgentRouter', desc: 'agentrouter.ai', icon: '/assets/badge-agentrouter.png' },
+    { client: 'OpenCode', desc: 'Terminal AI agent (SST)', icon: '/assets/pixel-terminal.png' },
+    { client: 'AgentRouter', desc: 'agentrouter.org', icon: '/assets/badge-agentrouter.png' },
     { client: 'Custom Clients', desc: 'Any HTTP client', icon: '/assets/pixel-terminal.png' }
   ];
+
+  // All Anthropic-format clients get full support through the proxy
+  const supported = ['Claude Code', 'Anthropic API', 'OpenCode', 'AgentRouter', 'Custom Clients'];
 
   return (
     <div className="space-y-8 py-6">
@@ -21,7 +24,6 @@ export default function CompatibilityPage() {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-center">
         <div className="space-y-4 lg:col-span-6">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#2B323B] bg-[#151A20] px-4 py-1 text-xs font-mono text-[#A5ADB7]">
-            <span className="text-[#FF704D]">⚡</span>
             <span>Works with your stack.</span>
           </div>
 
@@ -30,7 +32,7 @@ export default function CompatibilityPage() {
           </h1>
 
           <p className="text-base text-[#A5ADB7] leading-relaxed">
-            Claude Proxy is designed to work where you do. Use your favorite client, SDK, or gateway — we handle the rest.
+            ClaudeShield is designed to work where you do. Use your favorite client, SDK, or gateway — the proxy handles auth and retries.
           </p>
         </div>
 
@@ -56,12 +58,11 @@ export default function CompatibilityPage() {
             <thead>
               <tr className="border-b border-[#2B323B] text-[#747D88]">
                 <th className="py-3 px-2">Client / Gateway</th>
-                <th className="py-3 px-2 text-center">Chat Completions</th>
-                <th className="py-3 px-2 text-center">Messages</th>
+                <th className="py-3 px-2 text-center">Messages API</th>
                 <th className="py-3 px-2 text-center">Streaming</th>
-                <th className="py-3 px-2 text-center">Tools / Functions</th>
+                <th className="py-3 px-2 text-center">Tool Calls</th>
                 <th className="py-3 px-2 text-center">Auth</th>
-                <th className="py-3 px-2 text-center">Rate Limit</th>
+                <th className="py-3 px-2 text-center">Retry Behavior</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#2B323B]/60 text-[#F4F5F6]">
@@ -76,23 +77,33 @@ export default function CompatibilityPage() {
                       </div>
                     </div>
                   </td>
-                  <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
-                  <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
-                  <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
-                  <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
-                  <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
-                  <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
+                  {supported.includes(row.client) ? (
+                    <>
+                      <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
+                      <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
+                      <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
+                      <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
+                      <td className="py-3 px-2 text-center"><CheckCircle2 className="h-4 w-4 text-[#83D957] mx-auto" /></td>
+                    </>
+                  ) : (
+                    <td className="py-3 px-2 text-center" colSpan={5}>
+                      <span className="text-[#FFB347]">partial</span>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
           </table>
+          <p className="text-[10px] text-[#747D88] pt-3">
+            Anthropic-format clients (Messages API) get full support. OpenAI-format clients need a translation layer.
+          </p>
         </div>
 
         {/* Right Sidebar Box: Best with AgentRouter */}
         <div className="lg:col-span-4 rounded-2xl border border-[#FF704D]/40 bg-[#151A20]/90 p-6 space-y-6 orange-glow-sm">
           <div>
-            <h3 className="text-base font-bold text-[#FF704D] font-mono">Best with AgentRouter</h3>
-            <p className="text-xs text-[#A5ADB7] pt-1">Native integration. Smarter routing. Better reliability.</p>
+            <h3 className="text-base font-bold text-[#FF704D] font-mono">Designed for AgentRouter</h3>
+            <p className="text-xs text-[#A5ADB7] pt-1">Injects required headers. Handles Chinese error messages.</p>
           </div>
 
           <div className="space-y-4 text-xs">
@@ -108,7 +119,7 @@ export default function CompatibilityPage() {
               <RefreshCw className="h-5 w-5 text-[#FF704D] shrink-0 mt-0.5" />
               <div>
                 <div className="font-bold text-[#F4F5F6]">Streaming aware</div>
-                <div className="text-[#747D88]">Full support for SSE and chunked responses.</div>
+                <div className="text-[#747D88]">SSE peek-stream detects errors hidden in 200 responses.</div>
               </div>
             </div>
 
@@ -123,25 +134,92 @@ export default function CompatibilityPage() {
         </div>
       </div>
 
+      {/* OpenCode Setup Section */}
+      <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 space-y-4">
+        <div className="flex items-center gap-3">
+          <TerminalSquare className="h-5 w-5 text-[#FF704D]" />
+          <h2 className="text-base font-bold text-[#F4F5F6]">OpenCode (terminal AI agent)</h2>
+        </div>
+        <p className="text-xs text-[#A5ADB7] leading-relaxed">
+          OpenCode speaks the Anthropic Messages API, so it works with ClaudeShield out of the box.
+          Point it at the local proxy and it gets the same retry and auth handling as Claude Code.
+        </p>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Method 1: opencode.json */}
+          <div className="space-y-2">
+            <div className="text-xs font-mono text-[#FF704D] font-bold">Method 1 - opencode.json</div>
+            <CodeBlock
+              code={`{
+  "provider": {
+    "agentrouter": {
+      "npm": "@ai-sdk/anthropic",
+      "options": {
+        "baseURL": "http://127.0.0.1:8787",
+        "apiKey": "your-agentrouter-key"
+      },
+      "models": {
+        "claude-opus-5": { "name": "Claude Opus 5" }
+      }
+    }
+  }
+}`}
+              language="json"
+              filename="opencode.json"
+            />
+          </div>
+
+          {/* Method 2: env vars */}
+          <div className="space-y-2">
+            <div className="text-xs font-mono text-[#FF704D] font-bold">Method 2 - Environment variables</div>
+            <CodeBlock
+              code={`# Terminal (macOS / Linux)
+export ANTHROPIC_BASE_URL=http://127.0.0.1:8787
+export ANTHROPIC_API_KEY=your-agentrouter-key
+
+# PowerShell (Windows)
+$env:ANTHROPIC_BASE_URL="http://127.0.0.1:8787"
+$env:ANTHROPIC_API_KEY="your-agentrouter-key"
+
+# Launch
+opencode`}
+              language="bash"
+            />
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-[#2B323B] bg-[#11151A] p-4 space-y-2">
+          <div className="text-xs font-mono font-bold text-[#83D957]">Start the proxy first</div>
+          <CodeBlock
+            code={`python retry-proxy.py --start --upstream https://agentrouter.org`}
+            language="bash"
+          />
+        </div>
+      </div>
+
       {/* 3 Bottom Example Command Cards matching Image 5 */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-5 space-y-2">
-          <div className="text-xs font-mono text-[#FF704D] font-bold">Example (OpenAI-Compatible)</div>
-          <div className="text-xs font-mono text-[#A5ADB7]">Base URL: https://your-proxy.local/v1</div>
-          <div className="text-xs font-mono text-[#A5ADB7]">Headers: Authorization: Bearer YOUR_API_KEY</div>
+          <div className="text-xs font-mono text-[#FF704D] font-bold">Example (Claude Code)</div>
+          <CodeBlock code={`ANTHROPIC_BASE_URL=http://127.0.0.1:8787
+claude --dangerously-skip-permissions`} language="bash" />
         </div>
 
         <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-5 space-y-2">
           <div className="text-xs font-mono text-[#FF704D] font-bold">Example (Anthropic SDK)</div>
           <CodeBlock code={`const client = new Anthropic({
-  baseURL: "https://your-proxy.local/v1",
+  baseURL: "http://127.0.0.1:8787",
   apiKey: process.env.YOUR_API_KEY
 });`} language="javascript" />
         </div>
 
         <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-5 space-y-2">
-          <div className="text-xs font-mono text-[#FF704D] font-bold">Example (Claude Code)</div>
-          <CodeBlock code={`claude --api-base https://your-proxy.local/v1`} language="bash" />
+          <div className="text-xs font-mono text-[#FF704D] font-bold">Example (cURL)</div>
+          <CodeBlock code={`curl http://127.0.0.1:8787/v1/messages \\
+  -H "Authorization: Bearer YOUR_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"model":"claude-opus-5","max_tokens":64,
+       "messages":[{"role":"user","content":"Hello"}]}'`} language="bash" />
         </div>
       </div>
     </div>
