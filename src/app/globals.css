@@ -30,6 +30,72 @@
     color: #F4F5F6;
     font-family: var(--font-sans);
     overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* Site-wide animated ambient background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 112, 77, 0.07), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 85% 30%, rgba(255, 128, 93, 0.04), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 10% 70%, rgba(131, 217, 87, 0.03), transparent 60%),
+      #0B0E12;
+    animation: bgShift 18s ease-in-out infinite alternate;
+  }
+
+  /* Slow floating orbs */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle 300px at 20% 20%, rgba(255, 112, 77, 0.05), transparent 70%),
+      radial-gradient(circle 400px at 80% 60%, rgba(255, 128, 93, 0.04), transparent 70%),
+      radial-gradient(circle 250px at 50% 90%, rgba(131, 217, 87, 0.03), transparent 70%);
+    background-size: 100% 100%;
+    animation: bgOrbs 24s ease-in-out infinite alternate;
+  }
+}
+
+/* Ambient background animations */
+@keyframes bgShift {
+  0% {
+    background-position: 0% 0%, 0% 0%, 0% 0%, 0 0;
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    background-position: 10% 5%, -8% 10%, 8% -5%, 0 0;
+    opacity: 0.85;
+  }
+}
+
+@keyframes bgOrbs {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-2%, -1%) scale(1.05);
+  }
+  100% {
+    transform: translate(2%, 1%) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none !important;
   }
 }
 

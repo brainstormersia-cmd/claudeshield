@@ -10,8 +10,8 @@ export const HeroMascotScene: React.FC = () => {
       {/* Ambient Background - subtle, no visible box */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Soft orbiting glows - low opacity, blurred */}
-        <div className="absolute top-[10%] right-[8%] w-56 h-56 rounded-full bg-[#FF704D]/8 blur-3xl animate-orb-1" />
-        <div className="absolute bottom-[10%] left-[5%] w-64 h-64 rounded-full bg-[#FF805D]/5 blur-3xl animate-orb-2" />
+        <div className="absolute top-[10%] right-[8%] w-56 h-56 rounded-full bg-[#FF704D]/6 blur-3xl animate-orb-1" />
+        <div className="absolute bottom-[10%] left-[5%] w-64 h-64 rounded-full bg-[#FF805D]/4 blur-3xl animate-orb-2" />
       </div>
 
       {/* Low-opacity Pixel Grid Pattern */}
