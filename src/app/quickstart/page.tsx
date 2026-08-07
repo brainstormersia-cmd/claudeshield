@@ -46,12 +46,14 @@ claude`,
 
   return (
     <div className="space-y-10 py-6">
-      {/* Secondary Nav Bar matching reference */}
-      <div className="flex items-center justify-center gap-8 border-b border-[#2B323B]/80 pb-4 font-mono text-sm">
-        <span className="text-[#A5ADB7] hover:text-[#F4F5F6] cursor-pointer">Overview</span>
+      {/* Secondary Nav Bar - clickable */}
+      <div className="flex items-center justify-center gap-6 sm:gap-8 border-b border-[#2B323B]/80 pb-4 font-mono text-sm flex-wrap">
+        <Link href="/" className="text-[#A5ADB7] hover:text-[#F4F5F6] transition-colors">Overview</Link>
         <span className="text-[#FF704D] font-bold border-b-2 border-[#FF704D] pb-4 -mb-4">Quickstart</span>
-        <span className="text-[#A5ADB7] hover:text-[#F4F5F6] cursor-pointer">Configuration</span>
-        <span className="text-[#A5ADB7] hover:text-[#F4F5F6] cursor-pointer">Advanced</span>
+        <Link href="/docs" className="text-[#A5ADB7] hover:text-[#F4F5F6] transition-colors">Configuration</Link>
+        <Link href="/guides" className="text-[#A5ADB7] hover:text-[#F4F5F6] transition-colors">Guides</Link>
+        <Link href="/compatibility" className="text-[#A5ADB7] hover:text-[#F4F5F6] transition-colors">Compatibility</Link>
+        <Link href="/retry-logic" className="text-[#A5ADB7] hover:text-[#F4F5F6] transition-colors">Advanced</Link>
       </div>
 
       {/* Hero Header */}

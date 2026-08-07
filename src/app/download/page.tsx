@@ -11,13 +11,6 @@ import { BookOpen, Zap, ArrowRight, GitBranch } from 'lucide-react';
 export default function DownloadPage() {
   const [downloaded, setDownloaded] = useState(false);
 
-  const handleDownload = () => {
-    setDownloaded(true);
-    if (typeof window !== 'undefined') {
-      window.open(siteContent.downloadUrl, '_blank');
-    }
-  };
-
   const checklistItems = [
     "Stabilize Claude API requests",
     "Automatically retry failures",
@@ -52,22 +45,43 @@ export default function DownloadPage() {
 
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <button
-                onClick={handleDownload}
-                className="inline-flex items-center gap-2 rounded-lg bg-[#FF704D] px-6 py-3.5 text-sm font-bold text-white hover:bg-[#FF805D] transition-all shadow-lg hover:scale-105"
-              >
-                <span>Download Claude Proxy</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
               <a
                 href={siteContent.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-[#2B323B] bg-[#151A20] px-6 py-3.5 text-sm font-semibold text-[#F4F5F6] hover:border-[#FF704D] transition-all"
+                className="inline-flex items-center gap-2 rounded-lg bg-[#FF704D] px-6 py-3.5 text-sm font-bold text-white hover:bg-[#FF805D] transition-all shadow-lg hover:scale-105"
               >
                 <GithubIcon className="h-4 w-4" />
-                <span>Star on GitHub ↗</span>
+                <span>Get it on GitHub</span>
+                <ArrowRight className="h-4 w-4" />
               </a>
+              <a
+                href="/quickstart"
+                className="inline-flex items-center gap-2 rounded-lg border border-[#2B323B] bg-[#151A20] px-6 py-3.5 text-sm font-semibold text-[#F4F5F6] hover:border-[#FF704D] transition-all"
+              >
+                <BookOpen className="h-4 w-4" />
+                <span>Quickstart Guide</span>
+              </a>
+            </div>
+
+            {/* Install command */}
+            <div className="pt-4 max-w-xl">
+              <p className="text-xs text-[#747D88] mb-2 font-mono">Or install with one command:</p>
+              <div className="flex items-center gap-3 rounded-xl border border-[#2B323B] bg-[#0B0E12] px-4 py-3">
+                <code className="font-mono text-xs text-[#A5ADB7] flex-1 break-all">
+                  curl -sSL https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/install.py | python
+                </code>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText('curl -sSL https://raw.githubusercontent.com/brainstormersia-cmd/agentrouter-autoretry-claudecode/main/install.py | python');
+                    setDownloaded(true);
+                    setTimeout(() => setDownloaded(false), 1500);
+                  }}
+                  className="shrink-0 rounded-lg border border-[#2B323B] bg-[#151A20] px-3 py-1.5 text-xs text-[#A5ADB7] hover:border-[#FF704D] hover:text-[#F4F5F6] transition-all"
+                >
+                  {downloaded ? 'Copied!' : 'Copy'}
+                </button>
+              </div>
             </div>
 
             {/* Quick Explore Links */}

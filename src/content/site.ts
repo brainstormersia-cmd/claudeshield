@@ -183,8 +183,9 @@ export const siteContent: SiteConfig = {
   navigation: [
     { label: "Home", href: "/" },
     { label: "Features", href: "/features" },
-    { label: "Docs", href: "/docs" },
     { label: "Guides", href: "/guides" },
+    { label: "Compatibility", href: "/compatibility" },
+    { label: "Docs", href: "/docs" },
     { label: "FAQ", href: "/faq" },
   ],
 

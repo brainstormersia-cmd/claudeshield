@@ -177,6 +177,35 @@ message = client.messages.create(
         </div>
       </section>
 
+      {/* 2b. WORKS EVERYWHERE - client compatibility strip */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <h3 className="text-lg font-bold text-[#F4F5F6]">Works with your tools</h3>
+          <Link href="/guides" className="text-xs font-mono text-[#FF704D] hover:text-[#FF805D]">
+            View all guides →
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {[
+            { name: 'Claude Code', icon: '/assets/badge-claude-code.png' },
+            { name: 'Claude Desktop', icon: '/assets/badge-anthropic-api.png' },
+            { name: 'OpenCode', icon: '/assets/pixel-terminal.png' },
+            { name: 'Codex CLI', icon: '/assets/pixel-terminal.png' },
+            { name: 'Cline', icon: '/assets/pixel-terminal.png' },
+            { name: 'Roo Code', icon: '/assets/pixel-terminal.png' },
+          ].map((client) => (
+            <Link
+              key={client.name}
+              href="/guides"
+              className="flex flex-col items-center gap-2 rounded-xl border border-[#2B323B] bg-[#151A20] p-4 hover:border-[#FF704D]/50 hover:bg-[#191F26] transition-all group"
+            >
+              <PixelImage src={client.icon} alt={client.name} width={32} height={32} className="group-hover:scale-110 transition-transform" />
+              <span className="text-xs font-mono text-[#A5ADB7] group-hover:text-[#F4F5F6]">{client.name}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* 3. BOTTOM ROW: CODE SNIPPET & REAL RELIABILITY PRINCIPLES */}
       <section className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-stretch">
         {/* Left Card: Code Snippet */}
