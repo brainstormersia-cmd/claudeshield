@@ -187,6 +187,8 @@ export const siteContent: SiteConfig = {
     { label: "Compatibility", href: "/compatibility" },
     { label: "Docs", href: "/docs" },
     { label: "FAQ", href: "/faq" },
+    { label: "Status", href: "/status" },
+    { label: "Download", href: "/download" },
   ],
 
   hero: {

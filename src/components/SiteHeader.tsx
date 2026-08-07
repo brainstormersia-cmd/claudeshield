@@ -37,19 +37,14 @@ export const SiteHeader: React.FC = () => {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8" aria-label="Main Navigation">
-          {[
-            { label: 'Home', href: '/' },
-            { label: 'Features', href: '/features' },
-            { label: 'Docs', href: '/docs' },
-            { label: 'FAQ', href: '/faq' },
-          ].map((item) => {
+        <nav className="hidden md:flex items-center gap-7" aria-label="Main Navigation">
+          {siteContent.navigation.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative py-1 text-base font-medium transition-colors ${
+                className={`relative py-1 text-sm font-medium transition-colors ${
                   isActive ? 'text-[#F4F5F6]' : 'text-[#A5ADB7] hover:text-[#F4F5F6]'
                 }`}
               >
@@ -92,10 +87,16 @@ export const SiteHeader: React.FC = () => {
       {mobileMenuOpen && (
         <div className="fixed inset-0 top-[88px] z-50 flex flex-col bg-[#0B0E12]/95 backdrop-blur-xl p-6 md:hidden">
           <nav className="flex flex-col gap-4">
-            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium text-[#F4F5F6]">Home</Link>
-            <Link href="/features" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium text-[#A5ADB7]">Features</Link>
-            <Link href="/docs" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium text-[#A5ADB7]">Docs</Link>
-            <Link href="/faq" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium text-[#A5ADB7]">FAQ</Link>
+            {siteContent.navigation.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`text-lg font-medium ${item.href === '/' ? 'text-[#F4F5F6]' : 'text-[#A5ADB7]'}`}
+              >
+                {item.label}
+              </Link>
+            ))}
             <a href={siteContent.githubUrl} target="_blank" rel="noopener noreferrer" className="text-lg font-medium text-[#FF704D]">GitHub ↗</a>
           </nav>
         </div>

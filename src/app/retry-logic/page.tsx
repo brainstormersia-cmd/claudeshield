@@ -11,17 +11,17 @@ export default function RetryLogicPage() {
   const [activeTab, setActiveTab] = useState<'cURL' | 'JavaScript' | 'Python'>('cURL');
 
   const exampleCode = {
-    cURL: `curl https://your-proxy.local/v1/messages \\
+    cURL: `curl http://127.0.0.1:8787/v1/messages \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "model": "claude-3-opus-20240229",
+    "model": "claude-opus-5",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'`,
     JavaScript: `import Anthropic from '@anthropic-ai/sdk';
-const anthropic = new Anthropic({ baseURL: 'http://localhost:3000' });`,
+const anthropic = new Anthropic({ baseURL: 'http://127.0.0.1:8787' });`,
     Python: `import anthropic
-client = anthropic.Anthropic(base_url="http://localhost:3000")`
+client = anthropic.Anthropic(base_url="http://127.0.0.1:8787")`
   };
 
   const response429Json = `HTTP/1.1 429 Too Many Requests

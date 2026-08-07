@@ -37,15 +37,19 @@ export default function CompatibilityPage() {
         </div>
 
         {/* Right Stage: Mascot + Floating Pill Badges matching Image 5 */}
-        <div className="lg:col-span-6 rounded-2xl border border-[#2B323B]/80 bg-[#11151A] p-6 relative flex items-center justify-around overflow-hidden">
-          <div className="space-y-4 z-10">
-            <PixelImage src="/assets/badge-claude-code.png" alt="Claude Code" width={130} height={30} />
-            <PixelImage src="/assets/badge-anthropic-api.png" alt="Anthropic API" width={130} height={30} />
+        <div className="lg:col-span-5 rounded-2xl border border-[#2B323B]/80 bg-[#11151A] p-6 relative overflow-hidden min-h-[220px]">
+          {/* Mascot centered behind badges */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <MascotActor pose="inspecting" size={140} />
           </div>
-          <MascotActor pose="inspecting" size={130} />
-          <div className="space-y-4 z-10">
-            <PixelImage src="/assets/badge-openai-compatible.png" alt="OpenAI Compatible" width={150} height={30} />
-            <PixelImage src="/assets/badge-agentrouter.png" alt="AgentRouter" width={130} height={30} />
+          {/* Badges on top, spread to edges */}
+          <div className="absolute top-4 left-4 space-y-4 z-10">
+            <PixelImage src="/assets/badge-claude-code.png" alt="Claude Code" width={110} height={25} />
+            <PixelImage src="/assets/badge-anthropic-api.png" alt="Anthropic API" width={110} height={25} />
+          </div>
+          <div className="absolute top-4 right-4 space-y-4 z-10">
+            <PixelImage src="/assets/badge-openai-compatible.png" alt="OpenAI Compatible" width={130} height={25} />
+            <PixelImage src="/assets/badge-agentrouter.png" alt="AgentRouter" width={110} height={25} />
           </div>
         </div>
       </div>
@@ -53,7 +57,7 @@ export default function CompatibilityPage() {
       {/* Main Compatibility Table + Right Sidebar Box matching Image 5 */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* Matrix Table */}
-        <div className="lg:col-span-8 rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 overflow-x-auto">
+        <div className="lg:col-span-7 rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
             <thead>
               <tr className="border-b border-[#2B323B] text-[#747D88]">

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -18,7 +18,7 @@ export default function HomePage() {
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "model": "YOUR_MODEL_NAME",
+    "model": "claude-opus-5",
     "max_tokens": 1024,
     "messages": [{"role": "user", "content": "Hello!"}]
   }'`,
@@ -30,7 +30,7 @@ const anthropic = new Anthropic({
 });
 
 const res = await anthropic.messages.create({
-  model: 'YOUR_MODEL_NAME',
+  model: 'claude-opus-5',
   max_tokens: 1024,
   messages: [{ role: 'user', content: 'Hello!' }]
 });`,
@@ -42,7 +42,7 @@ client = anthropic.Anthropic(
 )
 
 message = client.messages.create(
-    model="YOUR_MODEL_NAME",
+    model="claude-opus-5",
     max_tokens=1024,
     messages=[{"role": "user", "content": "Hello!"}]
 )`
@@ -105,7 +105,7 @@ message = client.messages.create(
           <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] font-mono text-[#747D88]">
             <span className="text-[#A5ADB7]">Already installed?</span>
             <code className="rounded border border-[#2B323B] bg-[#151A20] px-2 py-0.5 text-[#FF805D]">python retry-proxy.py --update</code>
-            <span>·</span>
+            <span>Â·</span>
             <code className="rounded border border-[#2B323B] bg-[#151A20] px-2 py-0.5 text-[#A5ADB7]">--start</code>
             <code className="rounded border border-[#2B323B] bg-[#151A20] px-2 py-0.5 text-[#A5ADB7]">--version</code>
           </div>
@@ -113,11 +113,11 @@ message = client.messages.create(
           {/* Pipeline Flow Bar */}
           <div className="flex items-center gap-3 pt-1 font-mono text-xs text-[#A5ADB7]">
             <span className="rounded-lg border border-[#2B323B] bg-[#151A20] px-3.5 py-2 text-[#F4F5F6]">Proxy</span>
-            <span className="text-[#747D88]">──➔</span>
+            <span className="text-[#747D88]">â”€â”€âž”</span>
             <div className="flex items-center justify-center rounded-lg border border-[#FF704D]/40 bg-[#151A20] px-2.5 py-1">
               <PixelImage src="/assets/mascot-walk-1.png" alt="Mascot" width={24} height={24} />
             </div>
-            <span className="text-[#747D88]">──➔</span>
+            <span className="text-[#747D88]">â”€â”€âž”</span>
             <span className="rounded-lg border border-[#2B323B] bg-[#151A20] px-3.5 py-2 text-[#F4F5F6]">
               AgentRouter
             </span>
@@ -150,7 +150,7 @@ message = client.messages.create(
         <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 flex items-start gap-5 hover:border-[#FF704D]/50 hover:-translate-y-[2px] transition-all duration-180 orange-glow-sm">
           <div className="w-14 shrink-0 flex flex-col items-center justify-center font-pixel text-[#FF704D] leading-none pt-1">
             <span className="text-xl font-bold">403</span>
-            <span className="text-sm my-0.5">↓</span>
+            <span className="text-sm my-0.5">â†“</span>
             <span className="text-xl font-bold">429</span>
           </div>
           <div className="space-y-2">
@@ -182,7 +182,7 @@ message = client.messages.create(
         <div className="flex items-center justify-between flex-wrap gap-2">
           <h3 className="text-lg font-bold text-[#F4F5F6]">Works with your tools</h3>
           <Link href="/guides" className="text-xs font-mono text-[#FF704D] hover:text-[#FF805D]">
-            View all guides →
+            View all guides â†’
           </Link>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -291,7 +291,7 @@ message = client.messages.create(
 
           {/* Footer Line */}
           <div className="flex items-center gap-2 pt-4 border-t border-[#2B323B]/60 text-xs font-mono text-[#A5ADB7]">
-            <span>MIT Licensed • Pure Python Standard Library</span>
+            <span>MIT Licensed â€¢ Pure Python Standard Library</span>
           </div>
         </div>
       </section>
