@@ -145,6 +145,15 @@ export interface SiteConfig {
     solution: string;
   }>;
 
+  guides: Array<{
+    id: string;
+    client: string;
+    icon: string;
+    description: string;
+    steps: string[];
+    config: string;
+  }>;
+
   docs: Array<{
     id: string;
     title: string;
@@ -175,6 +184,7 @@ export const siteContent: SiteConfig = {
     { label: "Home", href: "/" },
     { label: "Features", href: "/features" },
     { label: "Docs", href: "/docs" },
+    { label: "Guides", href: "/guides" },
     { label: "FAQ", href: "/faq" },
   ],
 
@@ -506,6 +516,41 @@ export const siteContent: SiteConfig = {
       id: "other-gateways",
       question: "Can it be used with other gateways?",
       answer: "Yes. Use --upstream to point at any Anthropic-compatible gateway. The retry logic works regardless of the upstream gateway."
+    },
+    {
+      id: "claude-desktop",
+      question: "Does it work with Claude Desktop?",
+      answer: "Yes. Enable Developer Mode in Claude Desktop (Help → Troubleshooting → Enable Developer Mode), then configure the gateway: base URL http://127.0.0.1:8787, your AgentRouter API key, auth scheme 'bearer'. Apply and restart. The proxy injects the required claude-cli User-Agent automatically."
+    },
+    {
+      id: "opencode-support",
+      question: "Does it work with OpenCode?",
+      answer: "Yes. OpenCode speaks both Anthropic Messages API and OpenAI-compatible format. Point your provider baseURL to http://127.0.0.1:8787 (Anthropic) or http://127.0.0.1:8787/v1 (OpenAI-compatible). Both work - tested live with 200 responses."
+    },
+    {
+      id: "cline-roo-support",
+      question: "Does it work with Cline or Roo Code?",
+      answer: "Yes. Both are VS Code extensions that support custom Anthropic-compatible endpoints. Set the API provider to 'Anthropic' and the base URL to http://127.0.0.1:8787. The proxy handles auth injection and retries transparently."
+    },
+    {
+      id: "other-clients",
+      question: "Does it work with other AI coding agents?",
+      answer: "Any client that speaks the Anthropic Messages API (/v1/messages) or OpenAI Chat Completions (/v1/chat/completions) works. Point the client's base URL to http://127.0.0.1:8787. The proxy forwards requests as-is to AgentRouter."
+    },
+    {
+      id: "stream-false",
+      question: "What happens with non-streaming requests?",
+      answer: "The proxy forces streaming upstream for better error detection, then folds the SSE response back into a single JSON object matching the format the client expects (Anthropic message or OpenAI chat.completion). This prevents 'empty or malformed response' errors."
+    },
+    {
+      id: "update-proxy",
+      question: "How do I update to the latest version?",
+      answer: "Run 'python retry-proxy.py --update'. It downloads the latest version from GitHub, backs up the current file to retry-proxy.py.bak, and replaces itself. Then restart the proxy with --start."
+    },
+    {
+      id: "stats-endpoint",
+      question: "Can I monitor the proxy?",
+      answer: "Yes. The proxy exposes GET /stats (JSON telemetry: version, uptime, request count, conversions, errors, retry rate) and GET /health (simple health check). Use these for monitoring dashboards or the status page."
     }
   ],
 
@@ -524,6 +569,118 @@ export const siteContent: SiteConfig = {
       title: "Still Receiving Hard 403 Errors",
       symptom: "Session terminates with 403 Forbidden",
       solution: "Check proxy logs - this means the error is a genuine permission denial, not a rate limit. Only recognized quota 403s are converted."
+    }
+  ],
+
+  guides: [
+    {
+      id: "claude-code",
+      client: "Claude Code",
+      icon: "/assets/badge-claude-code.png",
+      description: "The primary target. Point Claude Code at the proxy via settings.json.",
+      steps: [
+        "Start the proxy: python retry-proxy.py --start --upstream https://agentrouter.org",
+        "Edit ~/.claude/settings.json and set ANTHROPIC_BASE_URL to http://127.0.0.1:8787",
+        "Set CLAUDE_CODE_RETRY_WATCHDOG=1 and CLAUDE_CODE_MAX_RETRIES=300 for infinite retries",
+        "Launch: claude --dangerously-skip-permissions"
+      ],
+      config: `{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:8787",
+    "ANTHROPIC_API_KEY": "your-agentrouter-key",
+    "CLAUDE_CODE_RETRY_WATCHDOG": "1",
+    "CLAUDE_CODE_MAX_RETRIES": "300"
+  }
+}`
+    },
+    {
+      id: "claude-desktop",
+      client: "Claude Desktop",
+      icon: "/assets/badge-anthropic-api.png",
+      description: "Use Claude Desktop with AgentRouter via the developer-mode gateway.",
+      steps: [
+        "Start the proxy: python retry-proxy.py --start --upstream https://agentrouter.org",
+        "In Claude Desktop: Help → Troubleshooting → Enable Developer Mode",
+        "Configure gateway: base URL http://127.0.0.1:8787, your AgentRouter key, auth scheme 'bearer'",
+        "Apply and restart Claude Desktop"
+      ],
+      config: `Gateway Base URL: http://127.0.0.1:8787
+Gateway API Key: your-agentrouter-key
+Auth Scheme: bearer`
+    },
+    {
+      id: "opencode",
+      client: "OpenCode",
+      icon: "/assets/pixel-terminal.png",
+      description: "Terminal AI agent by SST. Works with both Anthropic and OpenAI-compatible formats.",
+      steps: [
+        "Start the proxy: python retry-proxy.py --start --upstream https://agentrouter.org",
+        "Edit ~/.config/opencode/opencode.json (or opencode.jsonc)",
+        "Add a provider with baseURL http://127.0.0.1:8787 (Anthropic) or /v1 (OpenAI-compatible)",
+        "Launch: opencode"
+      ],
+      config: `{
+  "provider": {
+    "claudeshield": {
+      "name": "ClaudeShield (AgentRouter)",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://127.0.0.1:8787/v1",
+        "apiKey": "your-agentrouter-key"
+      },
+      "models": {
+        "claude-opus-5": { "name": "Claude Opus 5" }
+      }
+    }
+  }
+}`
+    },
+    {
+      id: "cline",
+      client: "Cline",
+      icon: "/assets/pixel-terminal.png",
+      description: "VS Code extension. Supports custom Anthropic-compatible endpoints.",
+      steps: [
+        "Start the proxy: python retry-proxy.py --start --upstream https://agentrouter.org",
+        "In Cline settings: API Provider → Anthropic",
+        "Set Base URL to http://127.0.0.1:8787",
+        "Enter your AgentRouter API key"
+      ],
+      config: `API Provider: Anthropic
+Base URL: http://127.0.0.1:8787
+API Key: your-agentrouter-key`
+    },
+    {
+      id: "roo-code",
+      client: "Roo Code",
+      icon: "/assets/pixel-terminal.png",
+      description: "VS Code extension (fork of Cline). Same configuration approach.",
+      steps: [
+        "Start the proxy: python retry-proxy.py --start --upstream https://agentrouter.org",
+        "In Roo Code settings: API Provider → Anthropic",
+        "Set Base URL to http://127.0.0.1:8787",
+        "Enter your AgentRouter API key"
+      ],
+      config: `API Provider: Anthropic
+Base URL: http://127.0.0.1:8787
+API Key: your-agentrouter-key`
+    },
+    {
+      id: "curl",
+      client: "cURL / HTTP",
+      icon: "/assets/pixel-terminal.png",
+      description: "Any HTTP client. Test the proxy directly with a single request.",
+      steps: [
+        "Start the proxy: python retry-proxy.py --start --upstream https://agentrouter.org",
+        "Send a request to http://127.0.0.1:8787/v1/messages",
+        "The proxy forwards to AgentRouter with the required headers"
+      ],
+      config: `curl http://127.0.0.1:8787/v1/messages \\
+  -H "x-api-key: your-agentrouter-key" \\
+  -H "anthropic-version: 2023-06-01" \\
+  -H "content-type: application/json" \\
+  -d '{"model":"claude-opus-5","max_tokens":64,
+       "messages":[{"role":"user","content":"Hello"}]}'`
     }
   ],
 
