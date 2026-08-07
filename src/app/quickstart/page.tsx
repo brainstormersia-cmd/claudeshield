@@ -10,6 +10,7 @@ import { GithubIcon } from '@/components/GithubIcon';
 import { siteContent } from '@/content/site';
 
 export default function QuickstartPage() {
+  const [activeSection, setActiveSection] = useState<'overview' | 'quickstart' | 'configuration'>('quickstart');
   const [tab1, setTab1] = useState<'git' | 'download'>('git');
   const [tab2, setTab2] = useState<'.env' | 'export'>('.env');
   const [tab3, setTab3] = useState<'bash' | 'json'>('bash');
@@ -46,14 +47,25 @@ claude`,
 
   return (
     <div className="space-y-10 py-6">
-      {/* Secondary Nav Bar - clickable */}
-      <div className="flex items-center justify-center gap-6 sm:gap-8 border-b border-[#2B323B]/80 pb-4 font-mono text-sm flex-wrap">
-        <Link href="/" className="text-[#A5ADB7] hover:text-[#F4F5F6] transition-colors">Overview</Link>
-        <span className="text-[#FF704D] font-bold border-b-2 border-[#FF704D] pb-4 -mb-4">Quickstart</span>
-        <Link href="/docs" className="text-[#A5ADB7] hover:text-[#F4F5F6] transition-colors">Configuration</Link>
-        <Link href="/guides" className="text-[#A5ADB7] hover:text-[#F4F5F6] transition-colors">Guides</Link>
-        <Link href="/compatibility" className="text-[#A5ADB7] hover:text-[#F4F5F6] transition-colors">Compatibility</Link>
-        <Link href="/retry-logic" className="text-[#A5ADB7] hover:text-[#F4F5F6] transition-colors">Advanced</Link>
+      {/* Secondary Nav - real tabs with content on this page */}
+      <div className="flex items-center justify-center gap-2 sm:gap-3 border-b border-[#2B323B]/80 pb-4 font-mono text-sm flex-wrap">
+        {([
+          { id: 'overview', label: 'Overview' },
+          { id: 'quickstart', label: 'Quickstart' },
+          { id: 'configuration', label: 'Configuration' },
+        ] as const).map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveSection(tab.id)}
+            className={`px-3 py-1.5 rounded-lg transition-all ${
+              activeSection === tab.id
+                ? 'text-[#FF704D] font-bold bg-[#FF704D]/10 border border-[#FF704D]/40'
+                : 'text-[#A5ADB7] hover:text-[#F4F5F6] hover:bg-[#151A20]'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
       {/* Hero Header */}
@@ -75,7 +87,71 @@ claude`,
         <MascotActor pose="walking" size={130} speechBubble="I'll guide you!" />
       </div>
 
-      {/* 3 Step Cards Grid matching Image 1 */}
+      {/* Overview section */}
+      {activeSection === 'overview' && (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 space-y-3">
+            <div className="text-sm font-bold text-[#FF805D] font-mono">What is ClaudeShield?</div>
+            <p className="text-xs text-[#A5ADB7] leading-relaxed">
+              A local reliability proxy between your client (Claude Code, OpenCode, etc.) and AgentRouter.
+              It converts non-retryable gateway errors into retryable 429 responses, so your sessions stay alive.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 space-y-3">
+            <div className="text-sm font-bold text-[#FF805D] font-mono">What it fixes</div>
+            <ul className="space-y-2 text-xs text-[#A5ADB7] leading-relaxed list-disc pl-4">
+              <li>403 quota errors from AgentRouter → converted to 429 + Retry-After</li>
+              <li>504 gateway timeouts → converted to retryable</li>
+              <li>"Empty or malformed response (200)" → detected and retried</li>
+              <li>Missing claude-cli User-Agent → injected automatically</li>
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 space-y-3">
+            <div className="text-sm font-bold text-[#FF805D] font-mono">Works with</div>
+            <div className="flex flex-wrap gap-2">
+              {['Claude Code', 'Claude Desktop', 'OpenCode', 'Codex', 'Cline', 'Roo Code'].map((c) => (
+                <span key={c} className="rounded border border-[#2B323B] bg-[#11151A] px-2 py-1 text-[10px] font-mono text-[#A5ADB7]">
+                  {c}
+                </span>
+              ))}
+            </div>
+            <Link href="/guides" className="text-xs font-mono text-[#FF704D] hover:text-[#FF805D]">
+              Setup guides →
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* Configuration section */}
+      {activeSection === 'configuration' && (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 space-y-4">
+            <div className="text-sm font-bold text-[#F4F5F6] font-mono">settings.json</div>
+            <p className="text-xs text-[#A5ADB7]">Claude Code reads this file to find the proxy:</p>
+            <CodeBlock code={`{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:8787",
+    "ANTHROPIC_API_KEY": "your-agentrouter-key",
+    "CLAUDE_CODE_RETRY_WATCHDOG": "1",
+    "CLAUDE_CODE_MAX_RETRIES": "300"
+  }
+}`} language="json" />
+          </div>
+          <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 space-y-4">
+            <div className="text-sm font-bold text-[#F4F5F6] font-mono">Environment variables</div>
+            <p className="text-xs text-[#A5ADB7]">For clients that read env vars (OpenCode, Codex):</p>
+            <CodeBlock code={`export ANTHROPIC_BASE_URL=http://127.0.0.1:8787
+export ANTHROPIC_API_KEY=your-agentrouter-key
+export CLAUDE_CODE_RETRY_WATCHDOG=1
+
+# or OpenAI-compatible clients:
+export OPENAI_BASE_URL=http://127.0.0.1:8787/v1`} language="bash" />
+          </div>
+        </div>
+      )}
+
+      {/* 3 Step Cards Grid - shown only in Quickstart tab */}
+      {activeSection === 'quickstart' && (
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {/* Step 1 */}
         <div className="rounded-2xl border border-[#2B323B]/80 bg-[#151A20]/90 p-6 space-y-4">
@@ -134,6 +210,7 @@ claude`,
           </div>
         </div>
       </div>
+      )}
 
       {/* Mascot Trail Sequence matching Image 1 */}
       <div className="relative py-4 flex items-center justify-around border-y border-[#2B323B]/60">
