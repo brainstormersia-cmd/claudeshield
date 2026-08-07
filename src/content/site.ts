@@ -223,7 +223,7 @@ export const siteContent: SiteConfig = {
     {
       id: "auto-retry",
       title: "Auto Retry",
-      description: "Converts 403/400/504 rate-limit errors into 429 + Retry-After so Claude Code retries automatically via its watchdog.",
+      description: "Converts 403/400/504 rate-limit errors into 429 + Retry-After so the client retries automatically via its watchdog.",
       iconName: "RotateCw",
       mascotInspect: true
     },
@@ -236,26 +236,50 @@ export const siteContent: SiteConfig = {
     {
       id: "403-to-429",
       title: "403 -> 429",
-      description: "Detects quota-related 403 responses and converts them to 429. Genuine permission denials stay 403.",
+      description: "Detects quota-related 403 responses (including Chinese error messages like 用户额度不足) and converts them to 429. Genuine permission denials stay 403.",
       iconName: "ArrowRightLeft",
       mascotInspect: true
     },
     {
-      id: "local-first",
-      title: "Local First",
-      description: "Runs locally on localhost:8787. Keeps proxy credentials on your machine.",
-      iconName: "Lock"
+      id: "header-injection",
+      title: "Header Injection",
+      description: "Injects the claude-cli/1.0.0 User-Agent that AgentRouter requires. Without it, AgentRouter rejects non-Claude-Code clients with 401 unauthorized.",
+      iconName: "Terminal"
     },
     {
-      id: "cli-friendly",
-      title: "CLI Friendly",
-      description: "Interactive setup: run python retry-proxy.py and configure. Works with Anthropic-compatible clients.",
-      iconName: "Terminal"
+      id: "peek-stream",
+      title: "Stream Inspection",
+      description: "Peeks at the first SSE events to detect errors hidden inside HTTP 200 responses. Catches 'empty or malformed response' crashes before they reach the client.",
+      iconName: "ShieldCheck"
+    },
+    {
+      id: "malformed-fix",
+      title: "Malformed Response Fix",
+      description: "Detects empty bodies, HTML error pages, and JSON error payloads disguised as 200. Converts them to retryable 503 so the client retries instead of crashing.",
+      iconName: "ShieldAlert"
+    },
+    {
+      id: "stream-folding",
+      title: "Response Folding",
+      description: "When a client requests non-streaming (stream:false), the proxy folds the forced SSE stream back into a single JSON object matching the expected format.",
+      iconName: "RefreshCw"
+    },
+    {
+      id: "data-null-filter",
+      title: "data:null Filtering",
+      description: "Removes 'data: null' SSE events that break Anthropic parsers and cause silent failures in long sessions.",
+      iconName: "Shield"
+    },
+    {
+      id: "local-first",
+      title: "Local First",
+      description: "Runs locally on localhost:8787. Pure Python 3.8+ standard library, zero dependencies. Your API keys never leave your machine.",
+      iconName: "Lock"
     },
     {
       id: "safe-defaults",
       title: "Circuit Breaker",
-      description: "Permanent errors pass through without conversion, preventing infinite retry loops.",
+      description: "Permanent errors (invalid key, model not found, permission denied) pass through without conversion, preventing infinite retry loops.",
       iconName: "ShieldCheck"
     }
   ],
@@ -263,27 +287,27 @@ export const siteContent: SiteConfig = {
   howItWorks: {
     badge: "Reliability layer for your Claude API requests.",
     title: "How the proxy stabilizes your session",
-    description: "Claude Proxy sits between Claude Code and AgentRouter. It intercepts error responses, classifies them as retryable or permanent, and converts retryable errors into 429 with Retry-After so Claude Code auto-retries.",
+    description: "ClaudeShield sits between your client and AgentRouter. It injects required headers, inspects SSE streams for hidden errors, folds non-streaming responses, and converts retryable failures into 429 with Retry-After so the client auto-retries.",
     nodes: [
       { id: 1, name: "Claude Code / Client", subtext: "Your CLI or application sends requests" },
-      { id: 2, name: "Claude Proxy", subtext: "Intercepts responses & classifies errors" },
+      { id: 2, name: "ClaudeShield", subtext: "Injects headers, inspects streams, classifies errors" },
       { id: 3, name: "AgentRouter", subtext: "Routes to best available model/provider" },
       { id: 4, name: "Model Provider", subtext: "Processes request & returns response" }
     ],
     cards: [
       {
-        title: "Intercept errors",
-        description: "Catches error responses from AgentRouter before they reach Claude Code. Peeks at the first 8KB of SSE streams to detect errors hidden inside 200 responses.",
-        codeSnippet: "HTTP/1.1 403 Forbidden\n{\"error\":\"用户额度不足, 剩余额度: $-71\"}"
+        title: "Inject & forward",
+        description: "Injects the claude-cli/1.0.0 User-Agent that AgentRouter requires. Strips unsupported parameters (temperature, top_p). Forces streaming upstream for better error detection. Forwards all auth headers as-is.",
+        codeSnippet: "User-Agent: claude-cli/1.0.0 (external, cli)\nAuthorization: Bearer <your-key>\nanthropic-version: 2023-06-01"
       },
       {
-        title: "Classify retryable failures",
-        description: "Reads the response body to determine if the error is a rate limit (retryable) or a permanent failure (not retryable).",
-        codeSnippet: "用户额度不足 (quota)     -> retryable ✓\nrate_limit              -> retryable ✓\n无权访问模型 (no model)  -> permanent ✕"
+        title: "Inspect & classify",
+        description: "Peeks at the first complete SSE events to detect errors hidden inside HTTP 200. Parses data: lines as JSON to avoid false positives. Detects Chinese quota errors (用户额度不足). Filters data:null events that break parsers.",
+        codeSnippet: "用户额度不足 (quota)     -> retryable\nrate_limit              -> retryable\n无权访问模型 (no model)  -> permanent\n\"error\": null           -> legitimate (ignored)"
       },
       {
-        title: "Convert & stabilize",
-        description: "Transforms retryable 403/400/504 errors into 429 with Retry-After. Claude Code's watchdog retries automatically. Permanent errors pass through unchanged.",
+        title: "Convert & fold",
+        description: "Transforms retryable 403/400/504 errors into 429 with Retry-After. Folds forced SSE streams back into single JSON for non-streaming clients. Permanent errors pass through unchanged (circuit breaker).",
         codeSnippet: "HTTP/1.1 429 Too Many Requests\nRetry-After: 20\n\n{\"type\":\"rate_limit_error\"}"
       }
     ],
@@ -533,6 +557,11 @@ export const siteContent: SiteConfig = {
       answer: "Yes. Both are VS Code extensions that support custom Anthropic-compatible endpoints. Set the API provider to 'Anthropic' and the base URL to http://127.0.0.1:8787. The proxy handles auth injection and retries transparently."
     },
     {
+      id: "codex-support",
+      question: "Does it work with Codex CLI?",
+      answer: "Yes. Codex uses the OpenAI Chat Completions format (/v1/chat/completions), which AgentRouter accepts. Set OPENAI_BASE_URL to http://127.0.0.1:8787/v1 and OPENAI_API_KEY to your AgentRouter key. The proxy forwards requests as-is and applies the same retry logic."
+    },
+    {
       id: "other-clients",
       question: "Does it work with other AI coding agents?",
       answer: "Any client that speaks the Anthropic Messages API (/v1/messages) or OpenAI Chat Completions (/v1/chat/completions) works. Point the client's base URL to http://127.0.0.1:8787. The proxy forwards requests as-is to AgentRouter."
@@ -681,6 +710,28 @@ API Key: your-agentrouter-key`
   -H "content-type: application/json" \\
   -d '{"model":"claude-opus-5","max_tokens":64,
        "messages":[{"role":"user","content":"Hello"}]}'`
+    },
+    {
+      id: "codex",
+      client: "Codex CLI",
+      icon: "/assets/pixel-terminal.png",
+      description: "OpenAI's coding agent. Uses the OpenAI Chat Completions format, which AgentRouter accepts.",
+      steps: [
+        "Start the proxy: python retry-proxy.py --start --upstream https://agentrouter.org",
+        "Set OPENAI_BASE_URL to http://127.0.0.1:8787/v1",
+        "Set OPENAI_API_KEY to your AgentRouter key",
+        "Launch: codex"
+      ],
+      config: `# Terminal (macOS / Linux)
+export OPENAI_BASE_URL=http://127.0.0.1:8787/v1
+export OPENAI_API_KEY=your-agentrouter-key
+
+# PowerShell (Windows)
+$env:OPENAI_BASE_URL="http://127.0.0.1:8787/v1"
+$env:OPENAI_API_KEY="your-agentrouter-key"
+
+# Launch
+codex`
     }
   ],
 
